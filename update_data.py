@@ -57,8 +57,16 @@ for idx,s in enumerate(symbols,1):
         else: errors[s]='insufficient or stale candles'
     except Exception as exc:
         errors[s]=str(exc)[:140]
+        
+
+
     if idx%45==0: print(f'Processed {idx}/{len(symbols)}; valid {updated}',flush=True)
     time.sleep(1.2) # respect public API 60 requests/min limit
+
+from collections import Counter
+print("DATA QUALITY REPORT:", dict(Counter(errors.values())), flush=True)
+print(f"Fresh valid: {updated}/{len(symbols)}", flush=True)
+
 # Fail closed: never publish a fake or mostly empty dataset.
 if updated<max(30,int(len(symbols)*0.5)):
     raise RuntimeError(f'Only {updated}/{len(symbols)} fresh symbols: existing dataset retained')
