@@ -4,7 +4,9 @@ from pathlib import Path
 import math, re
 
 BASE='https://psxdata-api.fastapicloud.dev'
-ROOT=Path(__file__).resolve().parents[1]
+
+ROOT=Path(__file__).resolve().parent if (Path(__file__).resolve().parent/'index.html').exists() else Path(__file__).resolve().parents[1]
+
 DATA=ROOT/'data'
 DATA.mkdir(exist_ok=True)
 PKT=timezone(timedelta(hours=5))
